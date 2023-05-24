@@ -1,0 +1,20 @@
+SIJOITUSKONE TIETOKANTA RAKENNE
+
+CREATE TABLE sijoitus (
+	id SERIAL PRIMARY KEY,
+	nimi varchar(30) NOT NULL,
+	liikevaihto DOUBLE(20,2) NOT NULL,
+	materiaalit DOUBLE(20,2) NOT NULL,
+	henkilosto DOUBLE(20,2) NOT NULL,
+	poistot DOUBLE(20,2) NOT NULL,
+	muutkulut DOUBLE(20,2) NOT NULL,
+	rahoitus DOUBLE(20,2) NOT NULL,
+	verot DOUBLE(20,2) NOT NULL,
+	kokonaismaara INTEGER NOT NULL,
+	osakehinta DOUBLE(20,2) NOT NULL,
+	sijoitus DOUBLE(20,2) NOT NULL
+);
+
+
+
+GRANT SELECT, UPDATE, DELETE, INSERT ON sijoitus TO 'db_jniemine'@'localhost';
