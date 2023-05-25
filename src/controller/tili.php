@@ -4,6 +4,7 @@ function lisaaTili ($formdata, $baseurl='') {
     require_once (MODEL_DIR . 'henkilo.php');
     $error = [];
 
+    //tarkistetaan lomakkeen tiedot
     if (!isset($formdata['nimi']) || !$formdata['nimi']) {
         $error['nimi'] = "Anna nimesi.";
     } else {
@@ -12,7 +13,7 @@ function lisaaTili ($formdata, $baseurl='') {
         }
     }
 
-    //tarkistetaan sposti määritelty ja oikea muoto
+    //tarkistetaan sposti määritelty ja oikea muoto eikä se ole jo varattu
     if (!isset($formdata['email']) || !$formdata['email']) {
         $error['email'] = "Anna sähköpostiosoitteesi.";
     } else {
@@ -25,7 +26,7 @@ function lisaaTili ($formdata, $baseurl='') {
       }
     }
 
-    // tark salasanat annettu ja keskennään samat JOS KAKSI SALASANAA!
+    // tarkistetaan annetut salasanat ja keskenään samat 
     if (isset($formdata['salasana1']) && $formdata['salasana1'] &&
         isset($formdata['salasana2']) && $formdata['salasana2']) {
         if ($formdata['salasana1'] != $formdata['salasana2']) {
@@ -35,14 +36,16 @@ function lisaaTili ($formdata, $baseurl='') {
         $error['salasana'] = "Syötä salasanasi kahteen kertaan.";
     }
 
+    //jos ei virheitä lisätään henkilö
     if (!$error) {
-
+    
     $nimi = $formdata['nimi'];
     $email = $formdata['email'];
     $salasana = password_hash($formdata['salasana1'], PASSWORD_DEFAULT);
 
     $idhenkilo = lisaaHenkilo($nimi,$email,$salasana);
-
+    
+    //lähetetään aktivointikoodi annettuun sähköpostiosoitteeseen
     if ($idhenkilo) {
 
     require_once(HELPERS_DIR . "salainen.php");

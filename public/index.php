@@ -13,13 +13,6 @@ switch ($request) {
     case '/etusivu':
         echo $templates->render('etusivu');
         break;
-
-    case '/testi':
-        echo $templates->render('testi');
-        break;
-    case '/testi2':
-        echo $templates->render('testi2');
-        break;
     
 
     case "/kirjaudu":
@@ -50,13 +43,16 @@ switch ($request) {
         break;
 
     case '/lisaa':
-        if (isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) { #tarkistetaan onko käyttäjä kirjautunut sisään
             if (isset($_POST['laheta'])) {
                 $formdata = siistiTiedot($_POST);
                 require_once CONTROLLER_DIR . 'tuloslaskelma.php';
                 $tulos = tarkistaTiedot($formdata);
                 if ($tulos['status'] == "200") {
+                    echo $templates->render('etusivu');
+                    echo '<br>';
                     echo "Tiedot lisätty yrityksen $_POST[nimi] nimellä.";
+                    
                     break;
                 }
                 echo $templates ->render('lisaa', ['formdata' => $formdata, 'error' => $tulos['error']]);
@@ -169,7 +165,7 @@ switch ($request) {
             echo $templates->render('reset_lomake', ['error' => '']);
             break;
         }
-        #break; oliko tää väärin? ilmoittaa unreachable code?
+        
 
     default:
         echo $templates->render('notfound');
