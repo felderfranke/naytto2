@@ -21,12 +21,14 @@ function tarkistaTiedot ($formdata) {
     }
 
     #liikevaihto
-    if (!isset($formdata['liikevaihto']) || !$formdata['liikevaihto']) {
+    if (!isset($formdata['liikevaihto']) AND $formdata['liikevaihto'] !=0 || !$formdata['liikevaihto']) {
         $error['liikevaihto'] = "Syötä yrityksen liikevaihto.";
-    } else {
-        if ($formdata['liikevaihto']<=0) {
+    }   elseif ($formdata['liikevaihto']<0) {
             $error['liikevaihto'] = "Syötä liikevaihto positiivisena numerona.";
-        }
+    }   elseif (empty($formdata['liikevaihto']) && $formdata['liikevaihto'] !=0){
+            $formdata['liikevaihto'] = null;
+    }   else {
+            $formdata['liikevaihto'] = $formdata['liikevaihto'];
     }
 
     #materiaalit
